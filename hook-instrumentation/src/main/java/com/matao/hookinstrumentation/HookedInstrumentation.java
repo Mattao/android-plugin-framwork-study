@@ -37,4 +37,21 @@ public class HookedInstrumentation extends Instrumentation {
         };
         return (ActivityResult) RefInvoke.invokeInstanceMethod(mBase, "execStartActivity", paramTypes, paramValues);
     }
+
+    public Activity newActivity(ClassLoader cl, String className, Intent intent)
+        throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+
+        Log.d(TAG, "newActivity hooked");
+
+        return mBase.newActivity(cl, className, intent);
+    }
+
+    public void callActivityOnCreate(Activity activity, Bundle icicle) {
+        Log.d(TAG, "callActivityOnCreate hooked");
+
+        Class[] paramTypes = {Activity.class, Bundle.class};
+        Object[] paramValues = {activity, icicle};
+
+        RefInvoke.invokeInstanceMethod(mBase, "callActivityOnCreate", paramTypes, paramValues);
+    }
 }
