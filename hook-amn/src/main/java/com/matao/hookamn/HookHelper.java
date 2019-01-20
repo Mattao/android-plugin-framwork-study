@@ -1,5 +1,7 @@
 package com.matao.hookamn;
 
+import android.os.Build;
+
 import com.matao.reflection.RefInvoke;
 
 import java.lang.reflect.Proxy;
@@ -10,7 +12,13 @@ import java.lang.reflect.Proxy;
 public class HookHelper {
 
     public static void hookActivityManager() {
-        Object gDefault = RefInvoke.getStaticField("android.app.ActivityManagerNative", "gDefault");
+        Object gDefault;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            gDefault = RefInvoke.getStaticField("android.app.ActivityManagerNative", "gDefault");
+        } else {
+            gDefault = RefInvoke.getStaticField("anroid.app.ActivityManager", "IActivityManagerSingleton");
+        }
+
         Object rawIActivityManager = RefInvoke.getField("android.util.Singleton", gDefault, "mInstance");
 
         try {
