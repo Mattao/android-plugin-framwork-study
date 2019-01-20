@@ -15,7 +15,7 @@ public class HookHelper {
 
         try {
             Class<?> iActivityManagerInterface = Class.forName("android.app.IActivityManager");
-            Object proxy = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+            Object proxy = Proxy.newProxyInstance(iActivityManagerInterface.getClassLoader(),
                 new Class[]{iActivityManagerInterface},
                 new HookHandler(rawIActivityManager));
 
