@@ -4,7 +4,6 @@ import android.util.Log;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 /**
  * Created by matao on 2019/1/20
@@ -21,7 +20,9 @@ public class HookHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        Log.d(TAG, "You are HOOKED!! method: " + method.getName() + " called with args: " + Arrays.toString(args));
+        if ("startActivity".endsWith(method.getName())) {
+            Log.d(TAG, "startActivity HOOKED!!");
+        }
         return method.invoke(mBase, args);
     }
 }
